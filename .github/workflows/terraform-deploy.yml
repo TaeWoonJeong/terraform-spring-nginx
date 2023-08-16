@@ -13,6 +13,7 @@ jobs:
 
     env:
       S3_STATE_BUCKET_NAME: tw-spring-nginx-tfstate
+      working-directory: ./terraform
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -66,6 +67,8 @@ jobs:
     name: "Terraform Create"
     runs-on: ubuntu-latest
 
+    env:
+      working-directory: ./terraform
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
