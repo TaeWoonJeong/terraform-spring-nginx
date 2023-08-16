@@ -75,8 +75,26 @@ resource "null_resource" "configure-cat-app" {
 
   provisioner "remote-exec" {
     inline = [
+      "sudo apt -y update",
+      "sleep 15",
+      "sudo apt -y install nginx",
+      "sudo systemctl start nginx",
+      "sudo apt -y install openjdk-17-jdk",
+      "sleep 15",
       "chmod +x *.sh",
       "./nginx.sh",
+      "sudo systemctl restart nginx",
+      #codedeploy 설치
+      "sudo apt -y install ruby-full",
+      "sleep 15",
+      "sudo apt -y install wget",
+      "wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install",
+      "chmod +x ./install",
+      "sudo ./install auto",
+
+      "sudo apt -y install cowsay",
+      "sleep 15",
+      "cowsay Mooooooooooo!",
     ]
 
     connection {

@@ -53,11 +53,11 @@ module "public-rt-table" {
 }
 
 module "public-ec2" {
-  source                       = "./modules/public-ec2"
-  aws_key_name                 = module.key-pair.output_key_name
-  aws_private_pem              = module.key-pair.output_private_pem
-  aws_subnet_id                = module.subnet.output_subnet_id
-  aws_sg_id                    = module.sg.output_default_sg_id
+  source                                   = "./modules/public-ec2"
+  aws_key_name                             = module.key-pair.output_key_name
+  aws_private_pem                          = module.key-pair.output_private_pem
+  aws_subnet_id                            = module.subnet.output_subnet_id
+  aws_sg_id                                = module.sg.output_default_sg_id
   aws_ec2_codedeploy_instance_profile_name = module.role.output_ec2_codedeploy_instance_profile_name
 }
 
