@@ -37,6 +37,7 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 s3://$S3_STATE_BUCKET_NAME/terraform.tfstate terraform.tfstate
         continue-on-error: true
         id: copy
+        working-directory: ${{ env.working-directory }}
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
@@ -51,16 +52,19 @@ jobs:
         id: init
         if: steps.setup.outcome == 'success'
         run: terraform init
+        working-directory: ${{ env.working-directory }}
 
       - name: Show Destroy plan
         id: plan
         if: steps.init.outcome == 'success'
         run: terraform plan -destroy
+        working-directory: ${{ env.working-directory }}
 
       - name: Destroy resources jobs
         if: steps.plan.outcome == 'success'
         id: destroy
         run: terraform destroy -auto-approve
+        working-directory: ${{ env.working-directory }}
 
   create:
     needs: destroy
@@ -96,6 +100,7 @@ jobs:
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
+        working-directory: ${{ env.working-directory }}
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
@@ -104,6 +109,7 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform plan -input=false
+        working-directory: ${{ env.working-directory }}
         env:
           TF_LOG: info
 
@@ -111,6 +117,7 @@ jobs:
         # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Apply
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+        working-directory: ${{ env.working-directory }}
         run: terraform apply -auto-approve -input=false
 
   buildAndDeploy:
