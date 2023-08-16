@@ -23,7 +23,6 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
-        run: cd ./terraform
 
       # terraform에서 사용하는 USER의 키를 입력합니다.
       - name: Configure AWS credentials
@@ -76,7 +75,6 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
-        run: cd ./terraform
 
       # terraform에서 사용하는 USER의 키를 입력합니다.
       - name: Configure AWS credentials
