@@ -62,7 +62,7 @@ resource "null_resource" "configure-cat-app" {
   // }
 
   provisioner "file" {
-    source      = "./terraform/files/"
+    source      = "./files/"
     destination = "/home/ubuntu/"
 
     connection {
