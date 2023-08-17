@@ -23,22 +23,6 @@ resource "aws_instance" "tw_instance" {
   vpc_security_group_ids      = [var.aws_sg_id]
   iam_instance_profile        = var.aws_ec2_codedeploy_instance_profile_name
 
-
-  user_data = <<-EOT
-              #!/bin/bash
-              sudo apt -y update
-              sudo apt -y install nginx
-              sudo systemctl start nginx
-              sudo apt -y install openjdk-17-jdk
-              sudo systemctl restart nginx
-              sudo apt -y install ruby-full
-              sudo apt -y install wget
-              wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
-              chmod +x ./install
-              sudo ./install auto
-              sudo apt -y install cowsay
-              cowsay Mooooooooooo!
-              EOT
   tags = {
     Name = var.public_ec2_name
   }
@@ -75,25 +59,26 @@ resource "null_resource" "configure-cat-app" {
 
   provisioner "remote-exec" {
     inline = [
+      "sleep 30",
       "sudo apt -y update",
-      "sleep 15",
+      "sleep 20",
       "sudo apt -y install nginx",
       "sudo systemctl start nginx",
       "sudo apt -y install openjdk-17-jdk",
-      "sleep 15",
+      "sleep 20",
       "chmod +x *.sh",
       "./nginx.sh",
       "sudo systemctl restart nginx",
       #codedeploy 설치
       "sudo apt -y install ruby-full",
-      "sleep 15",
+      "sleep 20",
       "sudo apt -y install wget",
       "wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install",
       "chmod +x ./install",
       "sudo ./install auto",
 
       "sudo apt -y install cowsay",
-      "sleep 15",
+      "sleep 20",
       "cowsay Mooooooooooo!",
     ]
 
